@@ -20,18 +20,20 @@ namespace DPPHandler::util {
     private:
         std::atomic<bool> stop = false;
         std::mutex mtx;
+        // This is going to be made into its own class so select menu, modal etc. uses the same thread for the expiring loop.
         std::thread expiringThread;
         void expirationCheckLoop();
 
     public:
         ButtonCollector() {
             expiringThread = std::thread(&ButtonCollector::expirationCheckLoop, this);
-        };
+        }
 
         ~ButtonCollector() {
             stop = true;
             expiringThread.join();
         }
+
         std::unordered_map<dpp::snowflake, ButtonData> buttons;
 
         void onButtonClick(const dpp::button_click_t &e);

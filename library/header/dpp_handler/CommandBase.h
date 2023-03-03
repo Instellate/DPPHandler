@@ -12,7 +12,7 @@
     void registerCommand() noexcept override { \
         if (T == 0) {// This is here to guarantee that the type gets registered.
 #define COMMAND_ADD(string, description, method, ...) \
-    addCommand(string, method);                              \
+    addCommand(string, method);                       \
     addCommandToRegistrationProcess(string, description, {__VA_ARGS__})
 #define COMMAND_LIST_END \
     }                    \
@@ -34,7 +34,7 @@ namespace DPPHandler {
         static void addCommandToRegistrationProcess(std::string &&name, std::string &&description, std::vector<Option> &&options) {
             dpp::slashcommand command(name, description, dpp::snowflake());
 
-            for(auto &option : options) {
+            for (auto &option: options) {
                 dpp::command_option commandOption(option.type, option.name, option.description, option.required);
                 command.add_option(commandOption);
             }

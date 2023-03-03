@@ -34,10 +34,10 @@ namespace DPPHandler {
 
         void registerCommand(const std::string &name, const methodFunc &method);
 
-        void addCommandToQueue(const dpp::slashcommand& cmd);
+        void addCommandToQueue(const dpp::slashcommand &cmd);
 
-        void addCollector(const dpp::snowflake &id,int expiringSeconds, const std::function<void(const dpp::button_click_t &)>& collectFunc,
-                const std::function<void(const std::vector<dpp::button_click_t> &)>& collectExpireFunc);
+        void addCollector(const dpp::snowflake &id, int expiringSeconds, const std::function<void(const dpp::button_click_t &)> &collectFunc,
+                          const std::function<void(const std::vector<dpp::button_click_t> &)> &collectExpireFunc);
 
         void start();
 

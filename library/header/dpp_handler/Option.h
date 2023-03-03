@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <string>
 #include <dpp/appcommand.h>
+#include <string>
 
 namespace DPPHandler {
     class Option {
@@ -18,4 +18,4 @@ namespace DPPHandler {
         Option(std::string optionName, std::string optionDescription, dpp::command_option_type optionType, bool optionRequired = false)
             : name(std::move(optionName)), description(std::move(optionDescription)), type(optionType), required(optionRequired) {}
     };
-}
+}// namespace DPPHandler
