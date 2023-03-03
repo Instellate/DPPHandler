@@ -5,5 +5,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(fmt REQUIRED)
 
-add_executable(DPPHandlerTest src/main.cpp src/TestCommandGroup.cpp src/TestCommandGroup.h)
+add_executable(DPPHandlerTest src/main.cpp src/commands/TestCommandGroup.cpp src/commands/TestCommandGroup.h src/envReader.cpp src/envReader.h)
 target_link_libraries(DPPHandlerTest PRIVATE DPPHandler dpp fmt)

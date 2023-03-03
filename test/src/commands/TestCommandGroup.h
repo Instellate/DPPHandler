@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <dpp_handler/CommandBase.h>
+#include "dpp_handler/CommandBase.h"
 #include <fmt/format.h>
 
 using namespace DPPHandler;

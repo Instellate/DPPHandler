@@ -30,8 +30,10 @@ void TestCommandGroup::testButtonsCmd(const dpp::slashcommand_t &cmd) {
     dpp::component actionRow;
     actionRow.set_type(dpp::cot_action_row);
     actionRow.add_component(dpp::component().set_type(dpp::cot_button).set_label("This is a button.").set_id("custom_id"));
+
     msg.add_component(actionRow);
     msg.set_content("Hello. Buttons.");
+
     cmd.reply(msg, [cmd](const dpp::confirmation_callback_t &response) {
         cmd.get_original_response([token = cmd.command.token](const dpp::confirmation_callback_t &response) {
             auto msg = std::get<dpp::message>(response.value);

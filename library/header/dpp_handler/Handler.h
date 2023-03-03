@@ -6,6 +6,7 @@
 
 #include "Option.h"
 #include "util/ButtonCollector.h"
+#include "util/ExpirationThreadHandler.h"
 #include <dpp/cluster.h>
 #include <memory>
 #include <vector>
@@ -25,7 +26,8 @@ namespace DPPHandler {
         std::unordered_map<std::string, methodFunc> commandMap;
         std::vector<dpp::slashcommand> unregisteredCommands;
         clientPtr client = nullptr;
-        util::ButtonCollector buttonCollector{};
+        util::ExpirationThreadHandler expirationThreadHandler;
+        util::ButtonCollector buttonCollector;
 
     public:
         void createClient(const std::string &token) noexcept;
@@ -40,6 +42,9 @@ namespace DPPHandler {
                           const std::function<void(const std::vector<dpp::button_click_t> &)> &collectExpireFunc);
 
         void start();
+
+        Handler() : buttonCollector(expirationThreadHandler) {
+        }
 
         clientPtr getClient() const noexcept;
     };

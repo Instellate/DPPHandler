@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "ExpirationThreadHandler.h"
 #include <dpp/dispatcher.h>
 #include <iostream>
 
@@ -18,20 +19,12 @@ namespace DPPHandler::util {
 
     class ButtonCollector {
     private:
-        std::atomic<bool> stop = false;
         std::mutex mtx;
-        // This is going to be made into its own class so select menu, modal etc. uses the same thread for the expiring loop.
-        std::thread expiringThread;
         void expirationCheckLoop();
 
     public:
-        ButtonCollector() {
-            expiringThread = std::thread(&ButtonCollector::expirationCheckLoop, this);
-        }
-
-        ~ButtonCollector() {
-            stop = true;
-            expiringThread.join();
+        explicit ButtonCollector(ExpirationThreadHandler &handler) {
+            handler.addFunctionToLoop(std::bind(&ButtonCollector::expirationCheckLoop, this));// NOLINT(modernize-avoid-bind)
         }
 
         std::unordered_map<dpp::snowflake, ButtonData> buttons;
