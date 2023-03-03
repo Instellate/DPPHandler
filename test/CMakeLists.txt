@@ -5,6 +5,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(fmt REQUIRED)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g")
 add_executable(DPPHandlerTest src/main.cpp src/TestCommandGroup.cpp src/TestCommandGroup.h)
 target_link_libraries(DPPHandlerTest PRIVATE DPPHandler dpp fmt)
