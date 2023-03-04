@@ -8,8 +8,6 @@
 #include <iostream>
 
 namespace DPPHandler::util {
-    using timePoint = std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
-
     struct ButtonData {
         timePoint expire;
         std::function<void(const dpp::button_click_t &)> collect;

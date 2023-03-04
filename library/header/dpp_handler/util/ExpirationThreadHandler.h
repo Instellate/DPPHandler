@@ -9,6 +9,8 @@
 #include <vector>
 
 namespace DPPHandler::util {
+    using timePoint = std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
+
     class ExpirationThreadHandler {
         std::vector<std::function<void()>> functions;
         std::thread loopThread;

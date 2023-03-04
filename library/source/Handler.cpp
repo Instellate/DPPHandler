@@ -74,6 +74,10 @@ void DPPHandler::Handler::start() {
         bc.onButtonClick(e);
     });
 
+    client->on_select_click([&slc = this->selectMenuCollector](const dpp::select_click_t &e) {
+        slc.onSelectMenuClick(e);
+    });
+
     client->start(false);
 }
 
@@ -81,13 +85,21 @@ void DPPHandler::Handler::addCommandToQueue(const dpp::slashcommand &cmd) {
     this->unregisteredCommands.emplace_back(cmd);
 }
 
-void DPPHandler::Handler::addCollector(const dpp::snowflake &id, int expiringSeconds, const std::function<void(const dpp::button_click_t &)> &collectFunc, const std::function<void(const std::vector<dpp::button_click_t> &)> &collectExpireFunc) {
+void DPPHandler::Handler::addButtonCollector(const dpp::snowflake &id, int expiringSeconds, const std::function<void(const dpp::button_click_t &)> &collectFunc, const std::function<void(const std::vector<dpp::button_click_t> &)> &collectExpireFunc) {
     util::ButtonData data;
     data.collect = collectFunc;
     data.collectEnd = collectExpireFunc;
     data.expire = (std::chrono::system_clock::now() + std::chrono::seconds(expiringSeconds));
 
     buttonCollector.buttons.emplace(id, data);
+}
+void DPPHandler::Handler::addSelectMenuCollector(const dpp::snowflake &id, int expiringSeconds, const std::function<void(const dpp::select_click_t &)> &collectFunc, const std::function<void(const std::vector<dpp::select_click_t> &)> &collectExpireFunc) {
+    util::SelectMenuData data;
+    data.collect = collectFunc;
+    data.collectEnd = collectExpireFunc;
+    data.expiration = (std::chrono::system_clock::now() + std::chrono::seconds(expiringSeconds));
+
+    selectMenuCollector.selectMenus.emplace(id, data);
 }
 
 namespace DPPHandler {

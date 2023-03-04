@@ -7,6 +7,7 @@
 #include "Option.h"
 #include "util/ButtonCollector.h"
 #include "util/ExpirationThreadHandler.h"
+#include "util/SelectMenuCollector.h"
 #include <dpp/cluster.h>
 #include <memory>
 #include <vector>
@@ -28,6 +29,7 @@ namespace DPPHandler {
         clientPtr client = nullptr;
         util::ExpirationThreadHandler expirationThreadHandler;
         util::ButtonCollector buttonCollector;
+        util::SelectMenuCollector selectMenuCollector;
 
     public:
         void createClient(const std::string &token) noexcept;
@@ -38,13 +40,15 @@ namespace DPPHandler {
 
         void addCommandToQueue(const dpp::slashcommand &cmd);
 
-        void addCollector(const dpp::snowflake &id, int expiringSeconds, const std::function<void(const dpp::button_click_t &)> &collectFunc,
-                          const std::function<void(const std::vector<dpp::button_click_t> &)> &collectExpireFunc);
+        void addButtonCollector(const dpp::snowflake &id, int expiringSeconds, const std::function<void(const dpp::button_click_t &)> &collectFunc,
+                                const std::function<void(const std::vector<dpp::button_click_t> &)> &collectExpireFunc);
+
+        void addSelectMenuCollector(const dpp::snowflake &id, int expiringSeconds, const std::function<void(const dpp::select_click_t &)> &collectFunc,
+                                    const std::function<void(const std::vector<dpp::select_click_t> &)> &collectExpireFunc);
 
         void start();
 
-        Handler() : buttonCollector(expirationThreadHandler) {
-        }
+        Handler() : buttonCollector(expirationThreadHandler), selectMenuCollector(expirationThreadHandler) {}
 
         clientPtr getClient() const noexcept;
     };

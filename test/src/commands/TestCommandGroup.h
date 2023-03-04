@@ -6,6 +6,7 @@
 
 #include "dpp_handler/CommandBase.h"
 #include <fmt/format.h>
+#include <boost/algorithm/string/join.hpp>
 
 using namespace DPPHandler;
 
@@ -15,6 +16,7 @@ class TestCommandGroup : public CommandBase<TestCommandGroup> {
     COMMAND_ADD("test_opt", "A test command with options", TestCommandGroup::testOptCmd,
                 {"user", "The user selected", dpp::co_user});
     COMMAND_ADD("test_button", "A test command for buttons.", TestCommandGroup::testButtonsCmd);
+    COMMAND_ADD("test_menu", "A test command for select menus.", TestCommandGroup::testSelectCmd);
     COMMAND_LIST_END
 
     static void testCmd(const dpp::slashcommand_t &cmd);
@@ -22,4 +24,6 @@ class TestCommandGroup : public CommandBase<TestCommandGroup> {
     static void testOptCmd(const dpp::slashcommand_t &cmd);
 
     static void testButtonsCmd(const dpp::slashcommand_t &cmd);
+
+    static void testSelectCmd(const dpp::slashcommand_t &cmd);
 };
