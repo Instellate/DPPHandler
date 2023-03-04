@@ -24,7 +24,7 @@ namespace DPPHandler::util {
 
     public:
         explicit ButtonCollector(ExpirationThreadHandler &handler) {
-            handler.addFunctionToLoop(std::bind(&ButtonCollector::expirationCheckLoop, this));// NOLINT(modernize-avoid-bind)
+            handler.addFunctionToLoop(std::bind(&ButtonCollector::expirationCheckLoop, this));// NOLINT(modernize-avoid-bind) I feel like a lambda would be a bit op for this.
         }
 
         std::unordered_map<dpp::snowflake, ButtonData> buttons;

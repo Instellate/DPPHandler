@@ -2,9 +2,9 @@
 // Created by instellate on 3/3/23.
 //
 
-#include "envReader.h"
+#include "EnvReader.h"
 
-void envReader::parseFile(const std::string &filePath) {
+void EnvReader::parseFile(const std::string &filePath) {
     std::fstream stream;
     stream.open(filePath, std::ios_base::in);
 
@@ -13,7 +13,6 @@ void envReader::parseFile(const std::string &filePath) {
         return;
     }
 
-    bool isEof = false;
     while (!stream.eof()) {
         std::string key, value;
 

@@ -20,7 +20,7 @@ void DPPHandler::util::ButtonCollector::expirationCheckLoop() {
 }
 
 void DPPHandler::util::ButtonCollector::onButtonClick(const dpp::button_click_t &e) {
-    auto it = buttons.find(e.command.message_id);
+    auto it = buttons.find(e.command.msg.interaction.id);
     if (it == buttons.end()) return;
     it->second.collect(e);
     it->second.eventsCollected.emplace_back(e);

@@ -7,8 +7,12 @@
 #include <iostream>
 #include <string>
 
-struct envReader {
+struct EnvReader {
     std::unordered_map<std::string, std::string> secrets;
 
     void parseFile(const std::string &filePath);
+
+    std::string& operator[](const std::string &name) {
+        return secrets[name];
+    }
 };

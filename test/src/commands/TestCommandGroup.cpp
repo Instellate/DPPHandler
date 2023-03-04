@@ -13,6 +13,7 @@ void TestCommandGroup::testCmd(const dpp::slashcommand_t &cmd) {
                           token, dpp::message("Test followup"), dpp::utility::log_error());
               });
 }
+
 void TestCommandGroup::testOptCmd(const dpp::slashcommand_t &cmd) {
     auto userIdPtr = std::get_if<dpp::snowflake>(&cmd.get_parameter("user"));
     if (userIdPtr) {
@@ -25,6 +26,7 @@ void TestCommandGroup::testOptCmd(const dpp::slashcommand_t &cmd) {
         cmd.reply({msg});
     }
 }
+
 void TestCommandGroup::testButtonsCmd(const dpp::slashcommand_t &cmd) {
     dpp::message msg;
     dpp::component actionRow;
@@ -35,13 +37,19 @@ void TestCommandGroup::testButtonsCmd(const dpp::slashcommand_t &cmd) {
     msg.set_content("Hello. Buttons.");
 
     cmd.reply(msg, [cmd](const dpp::confirmation_callback_t &response) {
-        cmd.get_original_response([token = cmd.command.token](const dpp::confirmation_callback_t &response) {
-            auto msg = std::get<dpp::message>(response.value);
-            handler().addCollector(
-                    msg.id, 10, [](const dpp::button_click_t &e) { e.reply("Clicked the button."); },
-                    [token](const std::vector<dpp::button_click_t> &vec) {
-                        handler().getClient()->interaction_followup_create(token, {"Finished collecting!"}, dpp::utility::log_error());
-                    });
-        });
+        if (response.is_error()) {
+            auto logError = dpp::utility::log_error();
+            logError(response);
+            return;
+        }
+
+        handler().addCollector(
+                cmd.command.id, 10,
+                [](const dpp::button_click_t &e) {
+                    e.reply("Clicked the button.");
+                },
+                [token = cmd.command.token](const std::vector<dpp::button_click_t> &vec) {
+                    handler().getClient()->interaction_followup_create(token, {"Finished collecting!"}, dpp::utility::log_error());
+                });
     });
 }
